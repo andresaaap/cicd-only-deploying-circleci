@@ -15,6 +15,22 @@ jobs:
           get-rollout-status: true
           resource-file-path: deployment.json
           resource-name: deployment/blue
+  create-service:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: service.json
+          resource-name: service/bluegreenlb
   create-small-cluster:
     executor: aws-eks/python3
     parameters:
@@ -44,10 +60,14 @@ workflows:
     jobs:
       - create-small-cluster:
           cluster-name: eks-demo-deployment
-      - create-deployment:
+      - create-service:
           cluster-name: eks-demo-deployment
           requires:
             - create-small-cluster
+      - create-deployment:
+          cluster-name: eks-demo-deployment
+          requires:
+            - create-service
       - aws-eks/update-container-image:
           cluster-name: eks-demo-deployment
           container-image-updates: 'blue=andresaaap/testblueimage:latest'
