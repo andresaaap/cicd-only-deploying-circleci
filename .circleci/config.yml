@@ -1,0 +1,37 @@
+obs:
+  create-deployment:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+    steps:
+      - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          get-rollout-status: true
+          resource-file-path: deployment.json
+          resource-name: deployment/blue
+orbs:
+  aws-eks: circleci/aws-eks@1.1.0
+  kubernetes: circleci/kubernetes@0.4.0
+version: 2.1
+workflows:
+  deployment:
+    jobs:
+      - aws-eks/create-cluster:
+          cluster-name: eks-demo-deployment
+      - create-deployment:
+          cluster-name: eks-demo-deployment
+          requires:
+            - aws-eks/create-cluster
+      - aws-eks/update-container-image:
+          cluster-name: eks-demo-deployment
+          container-image-updates: 'blue=andresaaap/testblueimage:latest'
+          record: true
+          requires:
+            - create-deployment
+          resource-name: deployment/blue
