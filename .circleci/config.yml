@@ -24,6 +24,8 @@ workflows:
     jobs:
       - aws-eks/create-cluster:
           cluster-name: eks-demo-deployment
+          node-type: t2.small
+          nodes-max: 2
       - create-deployment:
           cluster-name: eks-demo-deployment
           requires:
