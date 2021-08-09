@@ -47,7 +47,7 @@ workflows:
       - create-deployment:
           cluster-name: eks-demo-deployment
           requires:
-            - aws-eks/create-cluster
+            - create-small-cluster
       - aws-eks/update-container-image:
           cluster-name: eks-demo-deployment
           container-image-updates: 'blue=andresaaap/testblueimage:latest'
