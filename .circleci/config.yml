@@ -28,7 +28,6 @@ jobs:
           cluster-name: << parameters.cluster-name >>
           install-kubectl: true
       - kubernetes/create-or-update-resource:
-          get-rollout-status: true
           resource-file-path: service.json
           resource-name: service/bluegreenlb
   create-small-cluster:
