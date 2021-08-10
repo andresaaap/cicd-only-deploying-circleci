@@ -12,6 +12,10 @@ This pipeline is missing required jobs in rubric like: linting, image build/push
 * [**circleci/aws-eks@1.1.0s**](https://circleci.com/developer/orbs/orb/circleci/aws-eks)
 * [**circleci/kubernetes@0.4.0**](https://circleci.com/developer/orbs/orb/circleci/kubernetes)
 
+1. Create the CircleCI account
+
+2. Create a GitHub repository
+
 ### Install
 
 ```
