@@ -8,7 +8,6 @@ This pipeline is missing required jobs in rubric like: linting, image build/push
 
 ### Requirements
 
-* [**Node.js** `v10`](https://nodejs.org/en/download/) or higher must be installed to run this program
 * [**circleci/aws-eks@1.1.0s**](https://circleci.com/developer/orbs/orb/circleci/aws-eks)
 * [**circleci/kubernetes@0.4.0**](https://circleci.com/developer/orbs/orb/circleci/kubernetes)
 
